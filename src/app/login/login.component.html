@@ -1,0 +1,25 @@
+<div class="container col-md-4 mt-5" >
+
+<!--<div *ngIf="ErrorMessage" class="text-danger mt-4">{{ErrorMessage}}</div>-->
+  <div class="card" *ngIf="!ErrorMessage else errors">
+    <div class="card-header text-center"  >
+      Login
+    </div>
+    <div class="card-body">
+      <form [formGroup]="LoginFormGroup" (click)="handleLoginService()">
+        <div><label>User : </label><input type="text" class="form-control" formControlName="username"></div>
+        <div class="mt-4"><label>Password : </label><input type="password" class="form-control" formControlName="password"></div>
+        <div><button type="submit" class="btn btn-primary mt-4">OK</button></div>
+      </form>
+      <!-- Ajout d'un affichage conditionnel du message d'erreur -->
+    </div>
+  </div>
+  <ng-template #errors>
+    <div class="text-danger">{{ErrorMessage}}</div>
+  </ng-template>
+</div>
+<router-outlet>
+
+</router-outlet>
+
+
