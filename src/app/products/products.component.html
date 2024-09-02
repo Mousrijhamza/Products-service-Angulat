@@ -1,0 +1,80 @@
+<div class="container">
+<!--  <div *ngIf="erroMessage" class="text-danger">-->
+<!--    {{erroMessage}}-->
+<!--  </div>-->
+  <nav *ngIf="auth.hasrole('ADMIN')" class="p-2 m-2 border border-info">
+    <button class="btn btn-outline-info" (click)="handleNewProduct()">New Product</button>
+  </nav>
+  <div class="card" *ngIf="products; else errors ">
+    <div class="card-header">Liste products</div>
+    <div class="card-body">
+
+      <!--      -->
+<!--          {{searchFormGroup.value | json}}-->
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handlesearchProduct()">
+        <div class="input-group">
+          <label class="input-group-text">Keyword :</label>
+          <input type="text" class="form-control" formControlName="keyword">
+          <button class="btn btn-info"><i class="bi bi-search"></i></button>
+        </div>
+      </form>
+      <!--      -->
+      <table class="table">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Name</th>
+          <th>price</th>
+          <th>Promotion</th>
+          <th></th>
+          <th *ngIf="auth.hasrole('ADMIN') ">Action</th>
+          <th *ngIf="auth.hasrole('ADMIN') ">Edit</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of products">
+          <td>{{ c.id }}</td>
+          <td>{{ c.name }}</td>
+          <td >{{ c.price }}</td>
+          <td >
+            <i  *ngIf="c.promotion == true" class="bi bi-heart-fill text-success"></i>
+          </td>
+          <td *ngIf="auth.hasrole('ADMIN') ">
+            <button (click)="handlePromotion(c)" [ngClass]="c.promotion == true ? 'btn-danger':'btn-success'"  class="btn ">
+              <span *ngIf="c.promotion == true">Promo On</span>
+              <span *ngIf="c.promotion == false">Promo Off</span>
+            </button>
+          </td>
+          <td *ngIf="auth.hasrole('ADMIN') ">
+            <button class="btn btn-danger" (click)="handleDeleteProduct(c)">
+            <i class="bi bi-trash"></i></button>
+          </td>
+          <td >
+            <button class="btn btn-success" (click)="handleUpdateProduct(c)">
+              <i class="bi bi bi-file-earmark-arrow-down"></i></button>
+          </td>
+
+
+        </tr>
+        </tbody>
+      </table>
+      <ul class="nav nav-pills">
+        <li *ngFor="let item of [].constructor(this.total_pages); let i = index">
+          <button (click)="switchPage(i)" [ngClass]="i == currentPage ? 'btn-success':'btn-outline-dark'" class="btn ms-1 mt-1"><a>{{i}}</a></button>
+        </li>
+<!--        <button *ngFor="let page of [].constructor(total_pages); let i = index"-->
+<!--                (click)="switchPage(i)"-->
+<!--                [class.active]="currentPage === i">-->
+<!--          {{ i + 1 }}-->
+<!--        </button>-->
+      </ul>
+    </div>
+  </div>
+  <ng-template #errors>
+    <div class="text-danger">{{erroMessage}}</div>
+  </ng-template>
+</div>
+<router-outlet>
+
+</router-outlet>

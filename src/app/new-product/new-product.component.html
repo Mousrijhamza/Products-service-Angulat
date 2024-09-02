@@ -1,0 +1,40 @@
+
+    <div class="card col-md-6 offset-md-3 mt-5">
+      <div class="card-header">
+        New Product
+
+      </div>
+      <div class="card-body" *ngIf="auth.hasrole('ADMIN')">
+        <form [formGroup]="NewProductFormgroup" (ngSubmit)="handleaddProduct()" >
+          {{NewProductFormgroup.value | json}}
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" formControlName="name">
+            <small *ngIf="NewProductFormgroup.controls['name'].errors &&
+                          !NewProductFormgroup.controls['name'].untouched"
+                          class="text-danger">
+                {{gestionErrors('name', NewProductFormgroup)}}
+
+            </small>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" formControlName="price">
+            <small *ngIf="NewProductFormgroup.controls['price'].errors &&
+                          !NewProductFormgroup.controls['price'].untouched"
+                   class="text-danger">
+              {{gestionErrors('price', NewProductFormgroup)}}
+
+            </small>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="check">
+            <label class="form-check-label" for="exampleCheck1">Promotion</label>
+          </div>
+          <button [disabled]="NewProductFormgroup.invalid" type="submit" class="btn btn-primary" >New</button>
+        </form>
+      </div>
+
+    </div>
+
+
